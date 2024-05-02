@@ -1,14 +1,14 @@
 def do_nans_outliers(_df, _v):
-    # функция, добавляющая выбросы и пропуски
+    # функция, добавляющая в датафрейм столбец 'newcol2' с пропусками и выбросами
     if "newcol" not in _df.columns:
         raise Exception("В датафрейме отсутствует столбец newcol")
     import numpy as np
-    _df.newcol = _df.newcol.astype(float)
+    _df['newcol2'] = _df.newcol.astype(float)
     np.random.seed(_v)
     for ind in _df.sample(int(len(_df) * np.random.uniform(0.01, 0.1))).index:
-        cur_value = _df.loc[ind, "newcol"]
-        _df.loc[ind, "newcol"] = cur_value * np.random.uniform(1, 2) if \
+        cur_value = _df.loc[ind, "newcol2"]
+        _df.loc[ind, "newcol2"] = cur_value * np.random.uniform(1, 2) if \
             np.random.randint(0, 2) else cur_value * np.random.uniform(0, 0.7)
     for ind in _df.sample(int(len(_df) * np.random.uniform(0.01, 0.1))).index:
         if ind not in [_df.index[0], _df.index[-1]]:
-            _df.loc[ind, "newcol"] = np.nan
+            _df.loc[ind, "newcol2"] = np.nan
